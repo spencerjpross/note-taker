@@ -7,8 +7,8 @@ const PORT = process.env.PORT || 3004;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
-app.use('/', notesRoute);
-app.use('/api', indexRoute);
+app.use('/notes', notesRoute);
+app.use('/api/notes', indexRoute);
 
 
 

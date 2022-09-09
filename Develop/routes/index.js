@@ -1,39 +1,44 @@
 const path = require('path');
 const index = require('express').Router();
-const fs = require('fs');
-// const util = require('util');
-
-// // Promise version of fs.readFile
-// const readFromFile = util.promisify(fs.readFile);
+const { readFromFile, readAndAppend, writeToFile } = require('../helpers/fsUtils')
+const { v4: uuidv4 } = require('uuid');
 
 
 
-index.get('/notes', (req, res) => {
-    fs.readFile('../db/db.json', (err, data) => {
-        console.log(data)
-    }).then((data) => res.json(JSON.parse(data)));
+index.get('/', (req, res) => {
+    readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
 
-// index.post('/', (req, res) => {
-//     console.log(req.body);
+index.post('/', (req, res) => {
+    console.log(req.body);
   
-//     const { username, topic, tip } = req.body;
+    const { title, text } = req.body;
   
-//     if (req.body) {
-//       const newTip = {
-//         username,
-//         tip,
-//         topic,
-//         tip_id: uuidv4(),
-//       };
+    if (req.body) {
+      const newPost = {
+       title,
+       text,
+       id: uuidv4(),
+      };
   
-//       readAndAppend(newTip, './db/tips.json');
-//       res.json(`Tip added successfully 🚀`);
-//     } else {
-//       res.error('Error in adding tip');
-//     }
-//   });
+      readAndAppend(newPost, './db/db.json');
+      res.json(`Note added successfully 🚀`);
+    } else {
+      res.error('Error in adding note');
+    }
+  });
+
+index.delete('/:id', (req,res) => {
+    const { id } = req.params;
+    console.log(id)
+    readFromFile('./db/db.json').then((data) => {
+        const filteredNotes = JSON.parse(data).filter((note) => note.id !== id);
+        console.log(filteredNotes);
+        writeToFile('./db/db.json', filteredNotes);
+        readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
+    });
+})
 
 
 
