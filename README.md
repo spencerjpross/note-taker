@@ -1,6 +1,7 @@
 ** Table of Contents **
 - Description
 - Usage
+- Website and Github
 - Installation
 - Features
 - Learnings
@@ -13,6 +14,10 @@ This application will use an Express.js back end and will save and retrieve note
 
 ** Usage **
 ![screenshot](./Develop/Images/Screen%20Shot%202022-09-26%20at%204.59.36%20PM.png)
+
+** Website and Github **
+- https://github.com/spencerjpross/note-taker
+- https://spencerjpross.github.io/note-taker/
 
 ** Installation **
 - Install Express and UUID
